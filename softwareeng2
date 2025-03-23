@@ -1,1 +1,33 @@
-print("Hello World")
+def create_table():
+    conn = sqlite3.connect("database.db")
+    cursor = conn.cursor()
+    cursor.execute('''CREATE TABLE IF NOT EXISTS Montclair_State_System (
+                        id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        name TEXT NOT NULL,
+                        age INTEGER NOT NULL,
+                        school_email TEXT UNIQUE NOT NULL)''')
+    conn.commit()
+    conn.close()
+// add_record = Montclair_State_System//
+
+def add_record(name, age, school_email):
+    conn = sqlite3.connect("database.db")
+    cursor = conn.cursor()
+    cursor.execute("INSERT INTO Montclair_State_System (name, age, email) VALUES (?, ?, ?)", (name, age, school_email))
+    conn.commit()
+    conn.close()
+
+def add_record(name, age, school_email):
+  try:
+    conn = sqlite3.connect("database.db")
+    cursor = conn.cursor()
+    cursor.execute("INSERT INTO Montclair_State_System (name, age, school_email) VALUES (?, ?, ?)", 
+                       (name, age, school_email))
+    conn.commit()
+        print("Record added successfully!")
+  except sqlite3.IntegrityError:
+      print("Error: The email already exists in the database.")
+  except Exception as e:
+      print(f"An error occurred: {e}")
+  finally:
+    conn.close()
